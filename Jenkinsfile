@@ -8,8 +8,8 @@ pipeline {
         my_env_var = "This is my env variable"
     }
     options {
-        timeout(time: 5, unit: 'SECONDS')  # Timeout for entire Pipeline run
-        disableConcurrentBuilds()      # Disable concurrent builds
+        timeout(time: 5, unit: 'SECONDS')  // Timeout for entire Pipeline run
+        disableConcurrentBuilds()      // Disable concurrent builds
     }
     stages { 
         stage('Example') {
