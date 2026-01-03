@@ -11,6 +11,10 @@ pipeline {
         timeout(time: 5, unit: 'MINUTES')  // Timeout for entire Pipeline run
         disableConcurrentBuilds()      // Disable concurrent builds
     }
+    // triggers {
+    //         cron('H 2 * * 1-5') // Trigger the pipeline every weekday at 2 AM
+    //         pollSCM('H/5 * * * *') // Poll the SCM for changes every 5 minutes
+    //     }
     parameters {
         string(name: 'my_param', defaultValue: 'default value', description: 'This is my parameter')
         booleanParam(name: 'my_bool_param', defaultValue: true, description: 'This is my boolean parameter')
@@ -18,7 +22,7 @@ pipeline {
 
         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
 
-        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Choose whether to deploy')
 
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
 
@@ -29,7 +33,7 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo "${my_env_var}"
-                 input message: 'Do you want to proceed to deployment?', ok: 'Yes, deploy'
+                //  input message: 'Do you want to proceed to deployment?', ok: 'Yes, deploy'
             }
         }
 
@@ -48,13 +52,16 @@ pipeline {
         }
 
         stage ('stage-deploy'){
-             input {
-                message "Should we continue?"
-                ok "Yes, we should."
-                submitter "alice,bob"
-                parameters {
-                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-                }
+            //  input {
+            //     message "Should we continue?"
+            //     ok "Yes, we should."
+            //     submitter "alice,bob"
+            //     parameters {
+            //         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+            //     }
+            // }
+            when {
+               expression { ${params.DEPLOY} }
             }
             steps{
                 echo 'This is stage deploy'
