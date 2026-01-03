@@ -4,9 +4,12 @@ pipeline {
         // customWorkspace '/some/other/path'
     }
 }
-environment{
-    my_env_var = "This is my env variable"
-}
+    environment{
+        my_env_var = "This is my env variable"
+    }
+    options {
+        timeout(time: 1, unit: 'SECONDS') 
+    }
     stages { 
         stage('Example') {
             steps {
