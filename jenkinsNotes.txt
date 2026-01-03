@@ -242,3 +242,55 @@ It is used to define environment variables that can be accessed throughout the p
     once defined they can be used in all the stages of the pipeline using the "env" object. or without env also.
 - In this example, two environment variables (MY_VAR and ANOTHER_VAR) are defined in the "environment" block. These variables can then be accessed using the "env" object in the pipeline steps.
 - You can also define environment variables at the job level in Jenkins, which will be available to all pipelines executed by that job. To do this, go to the job configuration page, scroll down to the "Build Environment" section, and check the "Inject environment variables" option.
+
+
+## Options:
+The "options" section in a Jenkins pipeline is used to define various options and settings that affect the behavior of the pipeline. These options can include things like timeout settings, retry strategies, build discarding policies, and more.
+- In the Jenkinsfile, you can define options using the "options" block. For example:
+    ```
+    pipeline {
+        agent any
+        options {
+            timeout(time: 30, unit: 'MINUTES')
+            retry(3)
+            buildDiscarder(logRotator(numToKeepStr: '10'))
+        }
+        stages {
+            stage('Example Stage') {
+                steps {
+                    echo "This is an example stage"
+                }
+            }
+        }
+    }
+    ``` 
+
+    various options available in jenkins pipeline are:
+    - timeout: Specifies a timeout for the entire pipeline or individual stages.
+    - retry: Specifies the number of times to retry a failed stage or step.
+    - buildDiscarder: Specifies a policy for discarding old builds to save disk space.
+    - disableConcurrentBuilds: Prevents concurrent builds of the same pipeline.
+    - skipDefaultCheckout: Skips the default SCM checkout step.
+    - timestamps: Adds timestamps to the console output for better logging.
+- In this example, three options are defined in the "options" block: a timeout of 30 minutes, a retry strategy of 3 attempts, and a build discarding policy that keeps the last 10 builds. These options will affect the behavior of the pipeline during its execution.
+
+## Parameters:
+The "parameters" section in a Jenkins pipeline is used to define input parameters that can be provided when triggering the pipeline. These parameters allow users to customize the behavior of the pipeline based on their specific needs.
+- In the Jenkinsfile, you can define parameters using the "parameters" block. For example:
+    ```
+    pipeline {
+        agent any
+        parameters {
+            string(name: 'MY_PARAM', defaultValue: 'default_value', description: 'This is a string parameter')
+            booleanParam(name: 'ANOTHER_PARAM', defaultValue: true, description: 'This is a boolean parameter')
+        }
+        stages {
+            stage('Example Stage') {
+                steps {
+                    echo "MY_PARAM is ${params.MY_PARAM}"
+                    echo "ANOTHER_PARAM is ${params.ANOTHER_PARAM}"
+                }
+            }
+        }
+    }
+    ``` 
