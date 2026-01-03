@@ -215,3 +215,30 @@ Declarative is a Domain specific language on top of groovy from jenkins 2.0.
 
 Declarative pipeline is more structured and opinionated way of writing pipeline as code. and it is evaluated initially and then executed. It is a wrapper jenkins crated on top of groovu for strict evaluation of pipeline code.
 Meanwhile scripted pipeline is more flexible and powerful way of writing pipeline as code. It is groovy based and it is compiled first and then executed.
+
+
+
+## Environment section:
+It is used to define environment variables that can be accessed throughout the pipeline. These variables can be used to store configuration values, credentials, or any other information that needs to be shared across different stages of the pipeline.
+- In the Jenkinsfile, you can define environment variables using the "environment" block. For example:
+    ```
+    pipeline {
+        agent any
+        environment {
+            MY_VAR = "some_value"
+            ANOTHER_VAR = "another_value"
+        }
+        stages {
+            stage('Example Stage') {
+                steps {
+                    echo "MY_VAR is ${env.MY_VAR}"
+                    echo "ANOTHER_VAR is ${env.ANOTHER_VAR}"
+                }
+            }
+        }
+    }
+    ```
+
+    once defined they can be used in all the stages of the pipeline using the "env" object. or without env also.
+- In this example, two environment variables (MY_VAR and ANOTHER_VAR) are defined in the "environment" block. These variables can then be accessed using the "env" object in the pipeline steps.
+- You can also define environment variables at the job level in Jenkins, which will be available to all pipelines executed by that job. To do this, go to the job configuration page, scroll down to the "Build Environment" section, and check the "Inject environment variables" option.
