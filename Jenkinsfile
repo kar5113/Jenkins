@@ -24,7 +24,7 @@ pipeline {
                     sh """
                     echo "this is stage 2 and executing shell script"
                     echo "${my_env_var}"
-                    sleep 5
+                    #sleep 5
                     """
                 }
             }
