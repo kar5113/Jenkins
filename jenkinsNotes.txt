@@ -294,3 +294,27 @@ The "parameters" section in a Jenkins pipeline is used to define input parameter
         }
     }
     ``` 
+
+
+ ## Trigger:
+The "triggers" section in a Jenkins pipeline is used to define automated triggers that can start the pipeline based on specific events or conditions. These triggers allow you to automate the execution of your pipeline without manual intervention.
+- In the Jenkinsfile, you can define triggers using the "triggers" block. For example:
+    ```
+    pipeline {
+        agent any
+        triggers {
+            cron('H 2 * * 1-5') // Trigger the pipeline every weekday at 2 AM
+            pollSCM('H/5 * * * *') // Poll the SCM for changes every 5 minutes
+        }
+        stages {
+            stage('Example Stage') {
+                steps {
+                    echo "This is an example stage"
+                }
+            }
+        }
+    }
+    ```
+- In this example, two triggers are defined in the "triggers" block: a cron trigger that starts the pipeline every weekday at 2 AM, and a pollSCM trigger that checks the source code management (SCM) system for changes every 5 minutes. If any changes are detected, the pipeline will be triggered automatically.
+- These triggers help automate the execution of the pipeline based on time-based schedules or changes in the source code repository.    ```
+Refer documentation for more details: https://www.jenkins.io/doc/book/pipeline/syntax/#triggers
