@@ -272,6 +272,7 @@ The "options" section in a Jenkins pipeline is used to define various options an
     - disableConcurrentBuilds: Prevents concurrent builds of the same pipeline.
     - skipDefaultCheckout: Skips the default SCM checkout step.
     - timestamps: Adds timestamps to the console output for better logging.
+    - parallelAlwaysFailFast: Configures parallel stages to fail fast if any of them fail.
 - In this example, three options are defined in the "options" block: a timeout of 30 minutes, a retry strategy of 3 attempts, and a build discarding policy that keeps the last 10 builds. These options will affect the behavior of the pipeline during its execution.
 
 ## Parameters:

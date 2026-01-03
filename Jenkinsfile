@@ -65,7 +65,8 @@ pipeline {
             }
             steps{
                 echo 'This is stage deploy'
-                   echo "Hello ${params.PERSON}"
+                
+                echo "Hello ${params.PERSON}"
 
                 echo "Biography: ${params.BIOGRAPHY}"
 
