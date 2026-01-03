@@ -320,3 +320,34 @@ The "triggers" section in a Jenkins pipeline is used to define automated trigger
 Refer documentation for more details: https://www.jenkins.io/doc/book/pipeline/syntax/#triggers
 
 for git hub trigger, just add a webhook in the github repository settings pointing to your jenkins server webhook URL/github-webhook/
+
+
+## Input:
+The "input" step in a Jenkins pipeline is used to pause the pipeline execution and wait for user input before proceeding to the next stage or step. This is useful when you want to introduce manual approval or decision-making points in your pipeline.
+- In the Jenkinsfile, you can use the "input" step within a stage or step. For example:
+    ```
+    pipeline {
+        agent any
+        stages {
+            stage('Build') {
+                steps {
+                    echo "Building the application..."
+                }
+            }
+            stage('Approval') {
+                steps {
+                    input message: 'Do you want to proceed to deployment?', ok: 'Yes, deploy'
+                }
+            }
+            stage('Deploy') {
+                steps {
+                    echo "Deploying the application..."
+                }
+            }
+        }
+    }
+    ```
+- In this example, the pipeline has three stages: "Build", "Approval", and "Deploy". The "Approval" stage contains the "input" step, which pauses the pipeline and prompts
+the user with a message asking for approval to proceed to deployment. The user can click the "Yes, deploy" button to continue the pipeline execution.
+- The "input" step can also include additional parameters, such as a timeout period or a list of choices for the user to select from. This allows for more complex decision-making scenarios within the pipeline.
+- Once the user provides the required input, the pipeline resumes execution and proceeds to the next stage or step. If the user does not provide input within the specified timeout period (if set),
