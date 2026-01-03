@@ -1,6 +1,6 @@
 pipeline {
     node {
-        label 'Agent-1'
+        label 'linux'
         // customWorkspace '/some/other/path'
     }
     stages { 
