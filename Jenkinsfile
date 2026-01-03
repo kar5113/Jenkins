@@ -8,7 +8,7 @@ pipeline {
         my_env_var = "This is my env variable"
     }
     options {
-        timeout(time: 1, unit: 'SECONDS') 
+        timeout(time: 5, unit: 'SECONDS') 
     }
     stages { 
         stage('Example') {
