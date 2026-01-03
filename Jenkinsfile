@@ -35,6 +35,29 @@ pipeline {
         failure{
             echo 'This will execute only if the pipeline fails'
         }
+        changed{
+            echo 'This will execute only if there is a change in the repository'
+        }
+        fixed{
+            echo 'This will execute only if the pipeline was failing before and now is successful'
+        }
+        regression{
+            echo 'This will execute only if the pipeline was successful before and now is failing'
+        }
+        unstable
+        {
+            echo 'This will execute only if the pipeline is unstable'
+        }
+        unsuccessful{
+            echo 'This will execute if the pipeline is not successful'
+        }
+        cleanup{
+            echo 'This will always execute at the end of the pipeline'
+            cleanWs()
+        }
+
+
+
     }
 }
 
