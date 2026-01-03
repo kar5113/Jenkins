@@ -159,7 +159,7 @@
 
 
 
-#### 
+#### Documentation links:- https://www.jenkins.io/doc/book/pipeline/
 
 ## Pre build:
   prebuild steps are used to perform any setup or initialization tasks before the main build process begins. This can include tasks such as checking out source code from a version control system, setting up environment variables, installing dependencies, or preparing build artifacts. Pre-build steps help ensure that the build environment is properly configured and ready for the actual build process to take place.
@@ -177,4 +177,41 @@
 ## Post build:
     Post-build steps in Jenkins are actions that are executed after the main build process has completed. These steps are typically used to perform tasks such as archiving build artifacts, sending notifications, publishing reports, or triggering downstream jobs. Post-build steps help ensure that the results of the build are properly managed        
 
-Refer Jenkinsfile for more details.    
+Refer Jenkinsfile for more details.   
+
+
+
+#### Declarative vs Scripted Pipeline:
+- Declarative Pipeline is a more structured and opinionated way of defining Jenkins pipelines using a specific syntax. It provides a simpler and more readable syntax for defining pipelines, making it easier for users to
+understand and maintain their pipeline code. Declarative Pipeline also includes built-in features for error handling, parallel execution, and stage-level configuration.
+- Scripted Pipeline, on the other hand, is a more flexible and powerful way of defining Jenkins pipelines using Groovy code. It allows users to write custom logic and control flow in their pipeline
+scripts, giving them more control over the pipeline execution. Scripted Pipeline is more suitable for complex pipelines that require advanced logic and customization.
+- Declarative Pipeline is generally recommended for most users due to its simplicity and ease of use, while Scripted Pipeline is more suitable for advanced users who require more control and flexibility in their pipeline definitions. over time and that any necessary post-build actions are taken care of automatically.
+    - In the job configuration, scroll down to the "Post-build Actions" section.
+    - Click on the "Add post-build action" button and select the appropriate post-build action for your project (e.g., "Archive the artifacts", "Email Notification", "Publish JUnit test result report", etc.).
+    - In the post-build action configuration, enter the necessary details and settings for the action you selected.
+    - Save the job configuration.   
+
+Example: 
+    - Archive the artifacts: This post-build action allows you to specify files or directories to be archived after the build completes. You can use wildcards to specify multiple files or directories.
+    - Email Notification: This post-build action allows you to send email notifications to specified recipients based on the build status (e.g., success, failure, unstable). You can customize the email subject and body.
+    - Publish JUnit test result report: This post-build action allows you to publish JUnit test results generated during the build. You can specify the location of the test result XML files and configure options for displaying test results in Jenkins. and managed appropriately. This helps ensure that build artifacts are preserved
+
+differences between Declarative and Scripted Pipeline in Jenkins:
+| Feature                  | Declarative Pipeline                          | Scripted Pipeline                           |
+|--------------------------|----------------------------------------------|---------------------------------------------|
+| Syntax                   | Uses a specific, structured syntax           | Uses Groovy code with more flexibility         |
+| Readability              | More readable and easier to understand       | Can be more complex and harder to read            |
+| Error Handling           | Built-in error handling features             | Requires custom error handling logic              |
+| Parallel Execution       | Built-in support for parallel stages         | Requires custom implementation for parallel execution      |
+| Stage-level Configuration| Supports stage-level configuration options    | Requires custom logic for stage-level configuration        |
+| Use Case                 | Suitable for most users and simpler pipelines | Suitable for advanced users and complex pipelines     |
+| Maintenance               | Easier to maintain due to structured syntax   | Can be harder to maintain due to custom logic      |
+| compilation                | No compilation step, interpreted at runtime  | Groovy code is compiled before execution         |
+| syntax checking            | Limited syntax checking                       | Full Groovy syntax checking                    |  
+
+
+Declarative is a Domain specific language on top of groovy from jenkins 2.0. 
+
+Declarative pipeline is more structured and opinionated way of writing pipeline as code. and it is evaluated initially and then executed.
+Meanwhile scripted pipeline is more flexible and powerful way of writing pipeline as code. It is groovy based and it is compiled first and then executed.

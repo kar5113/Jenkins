@@ -13,7 +13,11 @@ pipeline {
 
         stage('stage-2'){
             steps{
-                echo 'This is stage 2'
+                script{
+                    sh """
+                    echo "this is stage 2 and executing shell script"
+                    """
+                }
             }
         }
 
