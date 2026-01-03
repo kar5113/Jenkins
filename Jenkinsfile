@@ -39,6 +39,8 @@ pipeline {
                     echo "this is stage 2 and executing shell script"
                     echo "${my_env_var}"
                     #sleep 5
+                    echo "Parameter value is ${params.my_param}"
+                    echo "Boolean Parameter value is ${params.my_bool_param}"
                     """
                 }
             }
@@ -47,6 +49,15 @@ pipeline {
         stage ('stage-deploy'){
             steps{
                 echo 'This is stage deploy'
+                   echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
                 script{
                     sh"""
                     env
