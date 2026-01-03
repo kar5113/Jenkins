@@ -318,3 +318,5 @@ The "triggers" section in a Jenkins pipeline is used to define automated trigger
 - In this example, two triggers are defined in the "triggers" block: a cron trigger that starts the pipeline every weekday at 2 AM, and a pollSCM trigger that checks the source code management (SCM) system for changes every 5 minutes. If any changes are detected, the pipeline will be triggered automatically.
 - These triggers help automate the execution of the pipeline based on time-based schedules or changes in the source code repository.    ```
 Refer documentation for more details: https://www.jenkins.io/doc/book/pipeline/syntax/#triggers
+
+for git hub trigger, just add a webhook in the github repository settings pointing to your jenkins server webhook URL/github-webhook/
