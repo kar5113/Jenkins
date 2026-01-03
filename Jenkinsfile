@@ -17,7 +17,7 @@ pipeline {
     //     }
     parameters {
         string(name: 'my_param', defaultValue: 'default value', description: 'This is my parameter')
-        booleanParam(name: 'my_bool_param', defaultValue: true, description: 'This is my boolean parameter')
+
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
 
         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
@@ -61,7 +61,7 @@ pipeline {
             //     }
             // }
             when {
-               expression { "${params.DEPLOY}" == true  }
+               expression { "$params.DEPLOY" == "true"  }
             }
             steps{
                 echo 'This is stage deploy'
