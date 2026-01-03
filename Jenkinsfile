@@ -61,7 +61,7 @@ pipeline {
             //     }
             // }
             when {
-               expression { ${params.DEPLOY} }
+               expression { ${params.DEPLOY} == true  }
             }
             steps{
                 echo 'This is stage deploy'
