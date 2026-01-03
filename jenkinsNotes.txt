@@ -1,0 +1,155 @@
+######## Jenkins ########
+
+#### Jenkins Installation:
+- Jenkins can be installed on various operating systems including Windows, macOS, and Linux distributions like Ubuntu, CentOS, and Red Hat.
+- Make sure to have atleast 50 gb storage space for jenkins installation.
+- using the below script resize the disk and logical volumes accordingly before installing jenkins.
+        #!/bin/bash
+
+        #resize disk from 20GB to 50GB
+        growpart /dev/nvme0n1 4
+
+        lvextend -L +10G /dev/mapper/RootVG-varVol # cause /var is where jenkins data will be stored
+        lvextend -L +10G /dev/mapper/RootVG-rootVol # cause / is where jenkins will be installed
+        lvextend -l +100%FREE /dev/mapper/RootVG-homeVol # cause /home is where user data will be stored
+
+        xfs_growfs /
+        xfs_growfs /var
+        xfs_growfs /home
+
+- For CentOS/RHEL based systems, follow the steps below to install Jenkins:
+    -   sudo yum install -y wget # use wget or curl -o
+    -   sudo wget --secure-protocol=TLSv1_2 -O /etc/yum.repos.d/jenkins.repo \
+            https://pkg.jenkins.io/redhat-stable/jenkins.repo
+            or
+        curl -o /etc/yum.repos.d/jenkins.repo \
+            https://pkg.jenkins.io/redhat-stable/jenkins.repo    
+        rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key    
+        sudo yum upgrade
+        # Add required dependencies for the jenkins package
+        sudo yum install fontconfig java-21-openjdk -y
+        sudo yum install jenkins -y
+        sudo systemctl daemon-reload
+        sudo systemctl enable jenkins
+        sudo systemctl start jenkins    
+
+#### Unlocking Jenkins
+- When you first access a new Jenkins controller, you are asked to unlock it using an automatically-generated password.
+
+- Browse to http://localhost:8080 (or whichever port you configured for Jenkins when installing it) and wait until the Unlock Jenkins page appears.    
+
+- From the Jenkins console log output, copy the automatically generated alphanumeric password (between the 2 sets of asterisks).
+
+    Note:
+
+    - The command: sudo cat /var/lib/jenkins/secrets/initialAdminPassword will print the password at console.
+
+    - If you are running Jenkins in Docker using the official jenkins/jenkins image you can use sudo docker exec ${CONTAINER_ID or CONTAINER_NAME} cat /var/jenkins_home/secrets/initialAdminPassword to print the password in the console without having to open an interactive shell inside the container.
+
+
+
+#### Installing Jenkins agents on remote nodes:
+- To install jenkins agent on remote node, follow the steps below:
+    - Login to jenkins master node UI.
+    - Go to Manage Jenkins -> Manage Nodes and Clouds -> New Node.
+    - Enter the node name, select "Permanent Agent" and click OK.
+    - Fill in the required details like number of executors, remote root directory, labels, usage, launch method etc.
+    - For launch method, select "Launch agents via SSH".
+    - Enter the remote node's hostname or IP address, credentials (username and password or private key) and port (default is 22).
+    - Click "Save" to create the node.
+    - Jenkins will now attempt to connect to the remote node via SSH and install the agent software.
+    - Once the agent is successfully installed, it will appear as "online" in the Jenkins nodes list and will be ready to accept jobs.
+
+    Note: Make sure that the remote node has Java installed and is reachable from the Jenkins master node.
+    - For our agent we  need to run the following script to install necessary packages and tools.
+        #!/bin/bash
+
+        #resize disk from 20GB to 50GB
+        growpart /dev/nvme0n1 4
+
+        lvextend -L +10G /dev/mapper/RootVG-varVol
+        lvextend -L +10G /dev/mapper/RootVG-rootVol
+        lvextend -l +100%FREE /dev/mapper/RootVG-homeVol
+
+        xfs_growfs /
+        xfs_growfs /var
+        xfs_growfs /home
+
+        # This is mandatory, nodejs installtion will break SSH if we dont update these packages
+        dnf update -y openssl\* openssh\* -y
+        yum install java-21-openjdk -y
+
+        dnf module disable nodejs -y
+        dnf module enable nodejs:20 -y
+        dnf install nodejs -y
+
+        # docker
+        yum install -y yum-utils
+        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+        yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+        systemctl start docker
+        systemctl enable docker
+        usermod -aG docker ec2-user
+
+        # Terraform
+        yum install -y yum-utils
+        yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+        yum -y install terraform
+
+        # Trivy
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.68.2
+
+        # Maven
+        dnf install maven -y
+
+        # Python
+        dnf install python3 gcc python3-devel -y
+
+        # Helm
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+
+        # eksctl and kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.34.2/2025-11-13/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        mkdir -p $HOME/bin && cp ./kubectl  /usr/local/bin && export PATH=$HOME/bin:$PATH
+
+        ARCH=amd64
+        PLATFORM=$(uname -s)_$ARCH
+        curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+        tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+        sudo install -m 0755 /tmp/eksctl /usr/local/bin && rm /tmp/eksctl
+
+
+
+#### Writing a Jenkins file:
+- A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline and is checked into source control.
+- It is written using the Groovy programming language and defines the stages, steps, and other aspects of the pipeline.
+- A simple Jenkinsfile example:
+    ```
+    pipeline {
+        agent any   
+        stages {
+            stage('Build') {
+                steps {
+                    echo 'Building...'
+                }
+            }
+            stage('Test') {
+                steps {
+                    echo 'Testing...'
+                }
+            }
+            stage('Deploy') {
+                steps {
+                    echo 'Deploying...'
+                }
+            }
+        }
+    }
+
+    ```
+- It should be written in a file named "Jenkinsfile" and placed in the root directory of the source code repository.    
+
+a_bad_pad_which_can_be_used
