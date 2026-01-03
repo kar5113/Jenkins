@@ -23,6 +23,18 @@ pipeline {
             }
         }
     }
+
+    post{
+        always{
+            echo 'This will always execute'
+        }
+        success{
+            echo 'This will execute only if the pipeline is successful'
+        }
+        failure{
+            echo 'This will execute only if the pipeline fails'
+        }
+    }
 }
 
 // pipeline{

@@ -152,4 +152,27 @@
     ```
 - It should be written in a file named "Jenkinsfile" and placed in the root directory of the source code repository.    
 
-a_bad_pad_which_can_be_used
+## Install plugins:
+    - Git Plugin
+    - stage view plugin
+    - 
+
+
+
+#### 
+
+## Pre build:
+  prebuild steps are used to perform any setup or initialization tasks before the main build process begins. This can include tasks such as checking out source code from a version control system, setting up environment variables, installing dependencies, or preparing build artifacts. Pre-build steps help ensure that the build environment is properly configured and ready for the actual build process to take place.
+    - Install "Pre Build Task" plugin in jenkins master.
+    - In the job configuration, scroll down to the "Build Environment" section and check the "Pre Build Task" option.
+    - Click on the "Add" button to add a new pre-build task.
+    - In the "Command" field, enter the script or command that you want to run
+        before the build starts. This can be a shell script, batch file, or any other command that is supported by your build environment.
+## Build stage:
+    The build stage in Jenkins is where the actual compilation, packaging, and building of the application takes place. This stage typically involves executing build scripts or commands that are specific to the programming language or framework being used. The build stage may include tasks such as compiling source code, running unit tests, generating build artifacts (e.g., JAR files, WAR files, Docker images), and performing code analysis or static code checks. The goal of the build stage is to produce a deployable artifact that can be used in subsequent stages of the CI/CD pipeline, such as testing and deployment.
+        - In the job configuration, scroll down to the "Build" section.
+        - Click on the "Add build step" button and select the appropriate build step for your project (e.g., "Execute shell", "Invoke Ant", "Invoke Gradle", etc.).
+        - In the build step configuration, enter the commands or scripts that will perform the build process for your application. This may include compiling code, running tests, generating artifacts, etc.
+        - Save the job configuration.
+## Post build:
+    Post-build steps in Jenkins are actions that are executed after the main build process has completed. These steps are typically used to perform tasks such as archiving build artifacts, sending notifications, publishing reports, or triggering downstream jobs. Post-build steps help ensure that the results of the build are properly managed        
