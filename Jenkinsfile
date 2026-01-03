@@ -8,7 +8,7 @@ pipeline {
         my_env_var = "This is my env variable"
     }
     options {
-        timeout(time: 5, unit: 'SECONDS')  // Timeout for entire Pipeline run
+        timeout(time: 5, unit: 'MINUTES')  // Timeout for entire Pipeline run
         disableConcurrentBuilds()      // Disable concurrent builds
     }
     parameters {
@@ -29,6 +29,7 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo "${my_env_var}"
+                 input message: 'Do you want to proceed to deployment?', ok: 'Yes, deploy'
             }
         }
 
