@@ -29,6 +29,11 @@ environment{
         stage ('stage-deploy'){
             steps{
                 echo 'This is stage deploy'
+                script{
+                    sh"""
+                    env
+                    """
+                }
             }
         }
     }
