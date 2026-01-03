@@ -1,5 +1,5 @@
 pipeline {
-   agent{} node {
+   agent{ node {
         label 'linux'
         // customWorkspace '/some/other/path'
     }
