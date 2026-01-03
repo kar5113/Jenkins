@@ -27,6 +27,7 @@ pipeline {
     post{
         always{
             echo 'This will always execute'
+            cleanWs()
         }
         success{
             echo 'This will execute only if the pipeline is successful'

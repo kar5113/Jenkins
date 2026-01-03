@@ -176,3 +176,5 @@
         - Save the job configuration.
 ## Post build:
     Post-build steps in Jenkins are actions that are executed after the main build process has completed. These steps are typically used to perform tasks such as archiving build artifacts, sending notifications, publishing reports, or triggering downstream jobs. Post-build steps help ensure that the results of the build are properly managed        
+
+Refer Jenkinsfile for more details.    
