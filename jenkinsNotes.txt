@@ -213,5 +213,5 @@ differences between Declarative and Scripted Pipeline in Jenkins:
 
 Declarative is a Domain specific language on top of groovy from jenkins 2.0. 
 
-Declarative pipeline is more structured and opinionated way of writing pipeline as code. and it is evaluated initially and then executed.
+Declarative pipeline is more structured and opinionated way of writing pipeline as code. and it is evaluated initially and then executed. It is a wrapper jenkins crated on top of groovu for strict evaluation of pipeline code.
 Meanwhile scripted pipeline is more flexible and powerful way of writing pipeline as code. It is groovy based and it is compiled first and then executed.

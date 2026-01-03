@@ -4,10 +4,14 @@ pipeline {
         // customWorkspace '/some/other/path'
     }
 }
+environment{
+    my_env_var = "This is my env variable"
+}
     stages { 
         stage('Example') {
             steps {
                 echo 'Hello World'
+                echo "${my_env_var}"
             }
         }
 
@@ -16,6 +20,7 @@ pipeline {
                 script{
                     sh """
                     echo "this is stage 2 and executing shell script"
+                    echo "${my_env_var}"
                     """
                 }
             }
