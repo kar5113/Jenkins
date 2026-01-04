@@ -31,5 +31,5 @@ sudo systemctl daemon-reload
 sudo systemctl enable jenkins
 sudo systemctl start jenkins 
 
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword >> jenkins_password.txt
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword >> /home/ec2-user/jenkins_password.txt
 
