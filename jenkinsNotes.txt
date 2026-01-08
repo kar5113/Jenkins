@@ -377,7 +377,7 @@ the pipeline can be configured to either abort or continue based on the defined 
 - Install SonarQube server in a separate EC2 instance or use SonarQube cloud service.
 - Install "SonarQube Scanner" plugin in jenkins master.
 - in tools install a sonarQube scanner with a name "SonarQube-Scanner" 
-- In the jenkins global configuration, add SonarQube server details and credentials.
+- In the jenkins global configuration,(system settings) add SonarQube server details and credentials.
 - In the jenkins pipeline, use the below commands in the build stage to perform code scanning:
     - withSonarQubeEnv('SonarQube-Server-Name') {
         //commands here
@@ -387,4 +387,38 @@ the pipeline can be configured to either abort or continue based on the defined 
       -Dsonar.sources=. \
       -Dsonar.host.url=<sonarqube_server_url> \
       -Dsonar.login=<sonarqube_token>   
+
+#### Depandabot:
+- Depandabot is a tool that helps you keep your dependencies up to date by automatically creating pull requests in your repository whenever a new version of a dependency is released.
+- To use Depandabot, you need to create a configuration file named "dependabot.yml" in the root directory of your repository.
+- The configuration file should specify the package manager you are using (e.g., npm, pip, maven, etc.), the directory where your dependencies are defined, and the frequency of updates.
+- Once you have created the configuration file, Depandabot will automatically scan your dependencies and create pull requests for any outdated dependencies it finds.
+- You can then review and merge these pull requests to keep your dependencies up to date.
+- Depandabot can be integrated with various version control systems such as GitHub, GitLab, and Bitbucket.
+
+we use Depandabot thats available in github to keep our dependencies up to date.
+
+- First enable depandabot analysis on github repository settings.
+- Next create a PAT, to query depandabot alerts from github API.
+- In jenkins pipelines, query the depandabot alerts and fail the build if there are any high or critical severity vulnerabilities.
+
+
+#### Trivy scan:
+- Trivy is a comprehensive security scanner for containers and other artifacts, designed to detect vulnerabilities and misconfigurations.
+- Install trivy in jenkins agent nodes.
+- In the jenkins pipeline, use the below commands in the build stage to perform trivy scan:
+    - trivy image --severity HIGH,CRITICAL --exit-code 1 --no-progress <image_name>:<tag>
+
+    trivy image \
+    --scanners vuln \
+    --severity HIGH,CRITICAL,MEDIUM \
+    --exit-code 1 \
+    --no-progress \
+    --pkg-types os \
+      image_name:tag"
+
+- This command scans the specified Docker image for vulnerabilities with HIGH and CRITICAL severity levels. If any vulnerabilities are found, the command exits with a non-zero exit code, causing the Jenkins build to fail.
+There are many more command line options available in trivy, refer documentation for more details
+
+
 
