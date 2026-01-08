@@ -70,3 +70,19 @@ output "jenkins_master" {
 output "jenkins_agent" {
   value = aws_instance.Jenkins_agent.public_ip 
 }
+
+resource "aws_route53_record" "jenkins_master_record" {
+  zone_id = "Z0806995L2997E89SFOF"  # Replace with your Route 53 Hosted Zone ID
+  name    = "jenkins-master.kardev.space"  # Replace with your desired subdomain
+  type    = "A"
+  ttl     = "30"
+  records = [aws_instance.Jenkins_master.public_ip]
+}
+
+resource "aws_route53_record" "jenkins_agent_record" {
+  zone_id = "Z0806995L2997E89SFOF"  # Replace with your Route 53 Hosted Zone ID
+  name    = "jenkins-agent.kardev.space"  # Replace with your desired subdomain
+  type    = "A"
+  ttl     = "30"
+  records = [aws_instance.Jenkins_agent.public_ip]
+}

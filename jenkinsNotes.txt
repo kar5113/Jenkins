@@ -156,6 +156,9 @@
     - Git Plugin
     - stage view plugin
     - Pipeline Utility Steps
+    - aws credentials
+    - aws steps
+    - sonarQube scanner
 
 
 
@@ -352,3 +355,36 @@ The "input" step in a Jenkins pipeline is used to pause the pipeline execution a
 the user with a message asking for approval to proceed to deployment. The user can click the "Yes, deploy" button to continue the pipeline execution.
 - The "input" step can also include additional parameters, such as a timeout period or a list of choices for the user to select from. This allows for more complex decision-making scenarios within the pipeline.
 - Once the user provides the required input, the pipeline resumes execution and proceeds to the next stage or step. If the user does not provide input within the specified timeout period (if set),
+the pipeline can be configured to either abort or continue based on the defined behavior.
+
+
+
+#### Docker :
+- We use ECR to store our docker images.
+- Use the below commands to login to ECR, build and push the docker image to ECR.
+- Create a repository in ECR with the name "repository_name" before pushing the image.
+- Create a role or user with necessary permissions to push images to ECR. and store it in jenkins credentials with the name "aws-credentials"
+  - In the jenkins pipeline, use the below commands in the build stage to push the docker image to ECR.
+    - withAWS(credentials: 'aws-credentials', region: '<region>') { //commands here }
+    - aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+    - docker build -t <repository_name> .
+    - docker tag <repository_name>:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository_name>:latest
+    - docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository_name>:latest
+
+
+
+#### Code scanning with SonarQube:
+- Install SonarQube server in a separate EC2 instance or use SonarQube cloud service.
+- Install "SonarQube Scanner" plugin in jenkins master.
+- in tools install a sonarQube scanner with a name "SonarQube-Scanner" 
+- In the jenkins global configuration, add SonarQube server details and credentials.
+- In the jenkins pipeline, use the below commands in the build stage to perform code scanning:
+    - withSonarQubeEnv('SonarQube-Server-Name') {
+        //commands here
+      }
+    - sonar-scanner \
+      -Dsonar.projectKey=<project_key> \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=<sonarqube_server_url> \
+      -Dsonar.login=<sonarqube_token>   
+
