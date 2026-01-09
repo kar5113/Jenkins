@@ -423,3 +423,25 @@ There are many more command line options available in trivy, refer documentation
 
 
 
+
+#### downstream jobs:
+- Downstream jobs in Jenkins are jobs that are triggered to run after the completion of another job, known as the upstream job. This allows for the creation of complex build pipelines where multiple jobs can be chained together to achieve a desired outcome.
+- To configure downstream jobs in Jenkins, follow these steps:
+    - In the Jenkins dashboard, navigate to the configuration page of the upstream job.
+    - Scroll down to the "Post-build Actions" section and click on the "Add post-build action" button.
+    - Select the "Build other projects" option from the dropdown menu.
+    - In the "Projects to build" field, enter the names of the downstream jobs that you want to trigger, separated by commas.
+    - You can also specify additional options such as triggering only if the upstream job is successful, unstable, or failed.
+    - Save the configuration changes.
+- Once configured, the downstream jobs will be automatically triggered to run after the completion of the upstream job, based on the specified conditions. This allows for the automation of complex workflows and the coordination of multiple jobs within Jenkins.
+
+or in jenkins file, use the build step to trigger downstream jobs:
+    - build job: 'downstream-job-name', 
+            wait: false
+just make sure both the jobs are in the same jenkins instance. and in the same folder if you are using folders in jenkins. refer roboshop-terraform-eks repo for more details
+
+an upstream job can trigger multiple downstream jobs as well.
+
+
+
+
