@@ -444,4 +444,36 @@ an upstream job can trigger multiple downstream jobs as well.
 
 
 
+#### Jenkins shared library:
+- A Jenkins shared library is a collection of reusable code and resources that can be shared across multiple Jenkins pipelines. It allows you to define common functions, classes, and variables that can be used in different pipeline scripts, promoting code reuse and maintainability.
+- To create a Jenkins shared library, follow these steps:
+    - Create a new Git repository to host your shared library code.
+    - In the repository, create a directory structure that follows the Jenkins shared library conventions. The recommended structure is:
+        ```
+        (root)
+        ├── vars/
+        │   └── myFunction.groovy
+        ├── src/
+        │   └── com/example/
+        │       └── MyClass.groovy
+        └── resources/
+            └── myResource.txt
+        ```
+    - In the "vars" directory, you can define global functions that can be called directly from your pipeline scripts.
+    - In the "src" directory, you can define classes and packages that can be imported and used in your pipeline scripts.
+    - In the "resources" directory, you can store any additional resources that your shared library may require.
+    - Commit and push your shared library code to the Git repository.
+- To use the shared library in your Jenkins pipelines, follow these steps:
+    - In the Jenkins dashboard, navigate to "Manage Jenkins" > "Configure System".
+    - Scroll down to the "Global Pipeline Libraries" section and click on "Add".
+    - Provide a name for your shared library and specify the Git repository URL where your shared library is hosted.
+    - Save the configuration changes.
+- In your Jenkins pipeline scripts, you can now import and use the shared library by adding the following line at the top of your Jenkinsfile:
+    ```@Library('my-shared-library') _
+    ```
+    - You can then call the functions and classes defined in the shared library as needed in your pipeline script.
+- Using Jenkins shared libraries helps to centralize and standardize common code, making it easier to maintain and update across multiple pipelines.
+
+
+
 
