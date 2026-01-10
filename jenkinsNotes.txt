@@ -160,6 +160,7 @@
     - aws steps
     - sonarQube scanner
     - ansicolor ( in options of pipleine give ansiColor('xterm')  to have colored logs)(should relaunch)
+    - rebuilder
 
 
 
